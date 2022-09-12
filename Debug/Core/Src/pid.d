@@ -1,4 +1,4 @@
-Core/Src/pid.o: ../Core/Src/pid.c ../Core/Inc/main.h \
+Core/Src/pid.o: ../Core/Src/pid.c ../Core/Inc/pid.h ../Core/Inc/main.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal.h \
  ../Core/Inc/stm32f2xx_hal_conf.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc.h \
@@ -27,8 +27,9 @@ Core/Src/pid.o: ../Core/Src/pid.c ../Core/Inc/main.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_pwr_ex.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim_ex.h \
- ../Core/Inc/motors.h ../Core/Inc/main.h ../Core/Inc/encoders.h \
- ../Core/Inc/pid.h ../Core/Inc/irs.h
+ ../Core/Inc/main.h ../Core/Inc/motors.h ../Core/Inc/encoders.h \
+ ../Core/Inc/irs.h ../Core/Inc/utility.h
+../Core/Inc/pid.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal.h:
 ../Core/Inc/stm32f2xx_hal_conf.h:
@@ -58,8 +59,8 @@ Core/Src/pid.o: ../Core/Src/pid.c ../Core/Inc/main.h \
 ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_pwr_ex.h:
 ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim.h:
 ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim_ex.h:
-../Core/Inc/motors.h:
 ../Core/Inc/main.h:
+../Core/Inc/motors.h:
 ../Core/Inc/encoders.h:
-../Core/Inc/pid.h:
 ../Core/Inc/irs.h:
+../Core/Inc/utility.h:

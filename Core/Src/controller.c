@@ -8,6 +8,15 @@
 #include "irs.h"
 #include "encoders.h"
 #include "utility.h"
+#include "solver.h"
+#include <math.h>
+
+extern int16_t goal_forward_left;
+extern int16_t goal_forward_right;
+
+const int move_counts = 612; // 612
+const int turn_counts = 456; // 456
+const int init_counts = 300;
 
 void move(int8_t n) {	// Move n cells forward (with acceleration)
 
@@ -65,7 +74,9 @@ void explore() {	// Move forward at a constant speed until a turn is needed
 
 	resetEncoders();
 
-	while()
+	int16_t explore_done = 0;
+
+	while(!explore_done)
 	{
 		setIRAngle(readIR(IR_LEFT), readIR(IR_RIGHT));
 		/*
@@ -78,7 +89,49 @@ void explore() {	// Move forward at a constant speed until a turn is needed
 
 		if ((getLeftEncoderCounts() + getRightEncoderCounts())/2)
 		{
+			Action nextMove = solver(DEAD);
+			switch(nextMove)
+			{
+				case FORWARD:
+					break;
+				case LEFT:
+					moveEncoderCount(move_counts/2);
+					turn(-1);
+					explore_done = 1;
+					break;
+				case RIGHT:
+					moveEncoderCount(move_counts/2);
+					turn(1);
+					explore_done = 1;
+					break;
+				case IDLE:
+					explore_done = 1;
+					break;
+			}
+		}
+	}
 
+	resetPID();
+
+}
+
+void frontCorrection() {
+
+	setState(REST);
+
+	int16_t forward_left = 0;
+	int16_t forward_right = 0;
+
+	while(!PIDdone())
+	{
+		forward_left = readIR(IR_FORWARD_LEFT);
+		forward_right = readIR(IR_FORWARD_RIGHT);
+
+		setIRDistance(forward_left, forward_right);
+
+		if (fabs(forward_left - goal_forward_left) < 200 && fabs(forward_right - goal_forward_right) < 200)
+		{
+			break;
 		}
 	}
 

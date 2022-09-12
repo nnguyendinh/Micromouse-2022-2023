@@ -16,7 +16,7 @@ void insertQueue(struct Cell* input);
 void popQueueFront();
 struct Cell* queueFront();
 
-void restart();
+//void restart();
 
 Action solver(Algorithm alg);
 Action deadReckoning();

@@ -28,6 +28,7 @@
 #include "controller.h"
 #include "delay.h"
 #include "irs.h"
+#include "solver.h"
 
 /* USER CODE END Includes */
 
@@ -69,6 +70,11 @@ int16_t irOffset_Set = 0;
 
 int16_t walls_set = 0;
 
+int16_t goal_forward_left = 0;
+int16_t goal_forward_right = 0;
+int16_t goal_left = 0;
+int16_t goal_right = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -85,32 +91,6 @@ static void MX_TIM8_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-void frontCorrection() {	// If front IR is not within a certain range of goal, move
-
-	int counter = 0;
-
-	frontLeft = readIR(IR_FRONT_LEFT);
-
-	  while (!(frontLeft < IRFrontGoal + 200 && frontLeft > IRFrontGoal - 200)) {
-
-		 counter++;
-		 if (counter > 100)
-			 break;
-
-		frontLeft = readIR(IR_FRONT_LEFT);
-
-		if (IRFrontGoal - frontLeft < 0)
-		{
-			  moveEncoderCount(-30);
-		}
-		else
-		{
-			  moveEncoderCount(30);
-		}
-
-	  }
-}
 
 void solve(Algorithm alg) {
 	Action nextMove = solver(alg);
@@ -197,21 +177,34 @@ int main(void)
 
 	  if (HAL_GPIO_ReadPin(LeftButton_GPIO_Port, LeftButton_Pin))
 	  {
-		  setIRAngleOffset(readIR(IR_LEFT) - readIR(IR_RIGHT), readIR(IR_LEFT), readIR(IR_RIGHT));
-//		  IRFrontGoal = readIR(IR_FRONT_LEFT);
+		  setIRGoals(readIR(IR_FORWARD_LEFT), readIR(IR_FORWARD_RIGHT), readIR(IR_LEFT), readIR(IR_RIGHT));
 		  irOffset_Set = 1;
 	  }
 
 	  if (HAL_GPIO_ReadPin(RightButton_GPIO_Port, RightButton_Pin))
 	  {
-		  setIRAngleOffset(readIR(IR_LEFT) - readIR(IR_RIGHT), readIR(IR_LEFT), readIR(IR_RIGHT));
+//		  setIRGoals(readIR(IR_FORWARD_LEFT), readIR(IR_FORWARD_RIGHT), readIR(IR_LEFT), readIR(IR_RIGHT));
+		  frontCorrection();
 		  start_pressed = 1;
 	  }
 
-
+/*
+ * 3 Modes: Regular, Explore, Zoom
+ *
+ * Regular: move cell by cell, stopping in the middle of each cell
+ * 			simply run the solve function
+ *
+ * Explore: accelerate to explore velocity and only decelerate when we need to turn
+ * 			run the explore function in controller.c
+ *
+ * Zoom: we know what the maze looks like, so we can run multiple floodfill moves at once
+ * 			not implemented yet
+ *
+ *
+ */
 	  if (start_pressed)
 	  {
-		  solve(DEAD);
+//		  solve(DEAD);
 	  }
 
     /* USER CODE END WHILE */

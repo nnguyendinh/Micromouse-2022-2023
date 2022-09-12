@@ -89,17 +89,17 @@ void initElements()
     queueEnd = 0;
 }
 
-void restart() {
-
-	resetPID();
-	currPos = newCell(15, 0);           // Sets current position to row 15, column 0
-	currHead = NORTH;                    // Sets current heading to north
-	queueStart = 0;
-	queueEnd = 0;
-	startPressed = 0;
-	running = 0;
-
-}
+//void restart() {
+//
+//	resetPID();
+//	currPos = newCell(15, 0);           // Sets current position to row 15, column 0
+//	currHead = NORTH;                    // Sets current heading to north
+//	queueStart = 0;
+//	queueEnd = 0;
+//	start_pressed = 0;
+//	running = 0;
+//
+//}
 
 void displayManhatttans()       // Displays all current manhattan distances in grid
 {
@@ -189,7 +189,7 @@ void detectWalls()
         {
             setWall(WEST);
         }
-        if (leftWallCHeck())
+        if (leftWallCheck())
         {
             setWall(SOUTH);
         }
@@ -322,7 +322,7 @@ Action floodFill() {
 
     if (Manhattans[row][col] == 0)
     {
-		restart();
+//		restart();
     	return IDLE;
     }
 

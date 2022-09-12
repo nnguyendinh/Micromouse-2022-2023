@@ -8,13 +8,40 @@
 #include "motors.h"
 #include "encoders.h"
 #include "irs.h"
+#include "utility.h"
+
+// Constants
+const float kPw = 0.001;	// 0.01
+const float kDw = 0.000;	// 0.0002
+const float kPx = 0.001;	// 0.001
+const float kDx = 0.0000;		//0.0
+
+const float front_kPx = 0.6;
+const float front_kPw = 0.35;
+
+const float kPir = 0.0203;
+const float kPir2 = 0.0103;
+
+const float xacceleration = 0.001; // 0.002
+
+const float PWMMaxx = 0.5; // 0.65
+const float PWMMaxw = 0.4;
+const float PWMMinx = 0.35;
+const float PWMMinw = 0.35;
+const float PWMMin = 0.3;
+
+const float explore_speed = 0.4;
 
 // Goal Parameters
 float goalDistance = 0;
 float goalAngle = 0;
-int goalLeftIR = 0;
-int goalRightIR = 0;
-int IRAngleOffset = 0;
+
+extern int16_t goal_forward_left;
+extern int16_t goal_forward_right;
+extern int16_t goal_left;
+extern int16_t goal_right;
+
+int16_t IRAngleOffset = 0;
 
 // Error Parameters
 float angleError = 0;
@@ -32,25 +59,6 @@ float oldDistanceCorrection = 0;
 
 float IRadjustment = 0;
 
-// Constants
-const float kPw = 0.001;	// 0.01
-const float kDw = 0.000;	// 0.0002
-const float kPx = 0.001;	// 0.001
-const float kDx = 0.0000;		//0.0
-
-float kPir = 0.0203;
-float kPir2 = 0.0103;
-
-const float xacceleration = 0.001; // 0.002
-
-const float PWMMaxx = 0.65;
-const float PWMMaxw = 0.4;
-const float PWMMinx = 0.3;
-const float PWMMinw = 0.3;
-const float PWMMin = 0.25;
-
-const float explore_speed = 0.4;
-
 // Miscellaneous
 STATE state = REST;
 float left_PWM_value = 0;
@@ -60,11 +68,20 @@ int goal_reached_timer = 0;
 void setPIDGoalD(int16_t distance) { goalDistance = distance; }
 void setPIDGoalA(int16_t angle) { goalAngle = angle; }
 void setState(STATE curr_state) { state = curr_state; }
-void setIRAngleOffset(int16_t angleOffset, int16_t leftGoal, int16_t rightGoal) {
+void setIRGoals(int16_t frontLeftGoal, int16_t frontRightGoal, int16_t leftGoal, int16_t rightGoal) {
 
-	IRAngleOffset = angleOffset;
-	goalLeftIR = leftGoal;
-	goalRightIR = rightGoal;
+	IRAngleOffset = leftGoal - rightGoal;
+	goal_forward_left = frontLeftGoal;
+	goal_forward_right = frontRightGoal;
+	goal_left = leftGoal;
+	goal_right = rightGoal;
+
+}
+
+void setIRDistance(int16_t curr_forward_left, int16_t curr_forward_right) {
+
+	setPIDGoalA(front_kPw * ((goal_forward_left - curr_forward_left) - (goal_forward_right - curr_forward_right)));
+	setPIDGoalD(front_kPx * ((goal_forward_left - curr_forward_left + goal_forward_right - curr_forward_left)/2));
 
 }
 
@@ -77,11 +94,11 @@ void setIRAngle(float left, float right){
 	}
 	else if (left > 600 && goalAngle == 0)
 	{
-		IRadjustment = (kPir2 * (left - goalLeftIR));
+		IRadjustment = (kPir2 * (left - goal_left));
 	}
 	else if (right > 600 && goalAngle == 0)
 	{
-		IRadjustment = (kPir2 * (goalRightIR - right));
+		IRadjustment = (kPir2 * (goal_right - right));
 	}
 	else
 		IRadjustment = 0;
@@ -149,6 +166,7 @@ void updatePID() {
 
 	if (state == EXPLORING)
 	{
+		distanceError = 306;
 		distanceCorrection = explore_speed;
 	}
 
@@ -195,7 +213,7 @@ void updatePID() {
 				angleCorrection = sign(angleCorrection) * PWMMinw;
 			break;
 
-		case REST:
+		default:
 			break;
 	}
 

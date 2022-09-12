@@ -3,10 +3,19 @@
  */
 
 #include "utility.h"
+#include "irs.h"
 
-setLeftWall(int wall) { left_wall_threshold = wall; }
-setRightWall(int wall) { right_wall_threshold = wall; }
-setFrontWall(int wall) { front_wall_threshold = wall; }
+int16_t left_wall_threshold = 650;
+int16_t right_wall_threshold = 650;
+int16_t front_wall_threshold = 650;
+
+int16_t left_wall = 0;
+int16_t right_wall = 0;
+int16_t front_wall = 0;
+
+void setLeftWall(int wall) { left_wall_threshold = wall; }
+void setRightWall(int wall) { right_wall_threshold = wall; }
+void setFrontWall(int wall) { front_wall_threshold = wall; }
 
 int16_t leftWallCheck() {
 	if (readIR(IR_LEFT) > left_wall_threshold) {
@@ -29,7 +38,7 @@ int16_t rightWallCheck() {
 }
 
 int16_t frontWallCheck() {
-	if (readIR(IR_FRONT_LEFT) > front_wall_threshold) {
+	if (readIR(IR_FORWARD_LEFT) > front_wall_threshold) {
 		front_wall = 1;
 	}
 	else {

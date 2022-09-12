@@ -7,14 +7,6 @@
 
 #include "main.h"
 
-int16_t left_wall_threshold = 0;
-int16_t right_wall_threshold = 0;
-int16_t front_wall_threshold = 0;
-
-int16_t left_wall = 0;
-int16_t right_wall = 0;
-int16_t front_wall = 0;
-
 void setLeftWall(int wall);
 void setRightWall(int wall);
 void setFrontWall(int wall);
