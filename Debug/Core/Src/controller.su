@@ -1,5 +1,5 @@
-../Core/Src/controller.c:21:6:move	24	static
-../Core/Src/controller.c:37:6:turn	16	static
-../Core/Src/controller.c:53:6:moveEncoderCount	24	static
-../Core/Src/controller.c:69:6:explore	24	static
-../Core/Src/controller.c:118:6:frontCorrection	32	static
+../Core/Src/controller.c:23:6:move	24	static
+../Core/Src/controller.c:39:6:turn	16	static
+../Core/Src/controller.c:55:6:moveEncoderCount	24	static
+../Core/Src/controller.c:71:6:explore	32	static
+../Core/Src/controller.c:125:6:frontCorrection	32	static

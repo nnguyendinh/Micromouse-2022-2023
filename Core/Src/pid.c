@@ -30,7 +30,7 @@ const float PWMMinx = 0.35;
 const float PWMMinw = 0.35;
 const float PWMMin = 0.3;
 
-const float explore_speed = 0.4;
+const float explore_speed = 0.3;
 
 // Goal Parameters
 float goalDistance = 0;
@@ -130,6 +130,8 @@ void resetPID() {
 
 	resetEncoders();
 	resetMotors();
+
+	setState(REST);
 
 }
 

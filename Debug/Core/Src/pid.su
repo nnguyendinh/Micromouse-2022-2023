@@ -5,5 +5,5 @@
 ../Core/Src/pid.c:81:6:setIRDistance	16	static
 ../Core/Src/pid.c:89:6:setIRAngle	24	static
 ../Core/Src/pid.c:107:6:resetPID	16	static
-../Core/Src/pid.c:136:6:updatePID	64	static
-../Core/Src/pid.c:264:8:PIDdone	8	static
+../Core/Src/pid.c:138:6:updatePID	64	static
+../Core/Src/pid.c:266:8:PIDdone	8	static

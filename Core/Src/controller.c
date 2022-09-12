@@ -18,6 +18,8 @@ const int move_counts = 612; // 612
 const int turn_counts = 456; // 456
 const int init_counts = 300;
 
+int distance = 0;
+
 void move(int8_t n) {	// Move n cells forward (with acceleration)
 
 	setPIDGoalA(0);
@@ -79,28 +81,33 @@ void explore() {	// Move forward at a constant speed until a turn is needed
 	while(!explore_done)
 	{
 		setIRAngle(readIR(IR_LEFT), readIR(IR_RIGHT));
-		/*
-		 * if we are at a transition point:
-		 * 		run floodfill/dead reckoning
-		 * 		if we are turning left or right:
-		 * 			run moveEncoderCount to get to center
-		 * 			turn left or right
-		 */
 
-		if ((getLeftEncoderCounts() + getRightEncoderCounts())/2)
+		distance = getLeftEncoderCounts();
+//
+//		if (fabs(distance - move_counts) < 20)
+//			{
+//			explore_done = 1;
+//			resetPID();
+//			break;
+//			}
+
+		if (fabs(((getLeftEncoderCounts() + getRightEncoderCounts())/2) - move_counts) < 20)
 		{
 			Action nextMove = solver(DEAD);
 			switch(nextMove)
 			{
 				case FORWARD:
+					resetEncoders();
 					break;
 				case LEFT:
-					moveEncoderCount(move_counts/2);
+//					moveEncoderCount(move_counts/2);
+					resetPID();
 					turn(-1);
 					explore_done = 1;
 					break;
 				case RIGHT:
-					moveEncoderCount(move_counts/2);
+//					moveEncoderCount(move_counts/2);
+					resetPID();
 					turn(1);
 					explore_done = 1;
 					break;
