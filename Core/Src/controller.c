@@ -4,6 +4,7 @@
 
 #include "main.h"
 #include "controller.h"
+#include "motors.h"
 #include "pid.h"
 #include "irs.h"
 #include "encoders.h"
@@ -13,12 +14,6 @@
 
 extern int16_t goal_forward_left;
 extern int16_t goal_forward_right;
-
-const int move_counts = 612; // 612
-const int turn_counts = 456; // 456
-const int init_counts = 300;
-
-int distance = 0;
 
 void move(int8_t n) {	// Move n cells forward (with acceleration)
 
@@ -73,9 +68,8 @@ void explore() {	// Move forward at a constant speed until a turn is needed
 	setState(EXPLORING);
 
 	setPIDGoalA(0);
-	setPIDGoalD(10000);
 
-	resetEncoders(); // TODO: IS THIS NECESSARY??
+	resetEncoders();
 
 	int16_t explore_done = 0;
 
@@ -83,13 +77,15 @@ void explore() {	// Move forward at a constant speed until a turn is needed
 	{
 		setIRAngle(readIR(IR_LEFT), readIR(IR_RIGHT));
 
-		if (fabs(((getLeftEncoderCounts() + getRightEncoderCounts())/2) - move_counts) < 20)
+		int16_t distance = (getLeftEncoderCounts() + getRightEncoderCounts())/2;
+
+		if (distance % move_counts < 15 || distance % move_counts > move_counts - 15)
+			// If distance is within 15 ticks of the cell distance
 		{
 			Action nextMove = solver(DEAD);
 			switch(nextMove)
 			{
 				case FORWARD:
-					resetEncoders();
 					break;
 				case LEFT:
 //					moveEncoderCount(move_counts/2);

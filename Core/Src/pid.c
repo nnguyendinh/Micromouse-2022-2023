@@ -38,13 +38,13 @@ float oldDistanceErrors[10] = {0};
 float distanceCorrection = 0;
 float oldDistanceCorrection = 0;
 
-float left_error = 0;
-float old_left_error = 0;
-float old_left_errors[10] = {0};
+float left_distance = 0;
+float old_left_distance = 0;
+float old_left_distances[10] = {0};
 
-float right_error = 0;
-float old_right_error = 0;
-float old_right_errors[10] = {0};
+float right_distance = 0;
+float old_right_distance = 0;
+float old_right_distances[10] = {0};
 
 float IRadjustment = 0;
 
@@ -97,74 +97,39 @@ void setIRAngle(float left, float right){
 		IRadjustment = 0;
 }
 
-void resetPID() {
+float accelerateLeftPWM() {
 
-//////////////	RESET ALL ANGLE AND DISTANCE ERRORS TO 0	////////////////
-	angleError = 0;
-	oldAngleError = 0;
-	angleCorrection = 0;
-
-	for (int i = 0; i < 10; i++)
-		oldAngleErrors[i] = 0;
-
-	distanceError = 0;
-	oldDistanceError = 0;
-	distanceCorrection = 0;
-
-	for (int i = 0; i < 10; i++)
-		oldDistanceErrors[i] = 0;
-
-	left_error = 0;
-	old_left_error = 0;
-	for (int i = 0; i < 10; i++)
-		old_left_errors[i] = 0;
-
-	right_error = 0;
-	old_right_error = 0;
-	for (int i = 0; i < 10; i++)
-		old_right_errors[i] = 0;
-
-	IRadjustment = 0;
-
-////////////// 	RESET ALL GOALS AND ENCODER COUNTS TO 0 	///////////////////
-	goal_angle = 0;
-	goal_distance = 0;
-	goal_reached_timer = 0;
-
-	resetEncoders();
-	resetMotors();
-
-	setState(REST);
-
-}
-
-void accelerateLeft() {
-
-	float derivative = left_error - old_left_error; // ticks per ms
+	float derivative = left_distance - old_left_distance; // ticks per ms
 
 	test1 = derivative;
 	if (derivative < velocity_left * 34.0)
-		left_PWM_value += xaccelerationTEST;
+		return left_PWM_value + xacceleration;
 
 	if (derivative > velocity_left * 34.0)
-		left_PWM_value -= xaccelerationTEST;
+		return left_PWM_value - xacceleration;
+
+	return left_PWM_value;
 
 }
 
-void accelerateRight() {
+float accelerateRightPWM() {
 
-	float derivative = right_error - old_right_error;
+	float derivative = right_distance - old_right_distance;
 
 	test2 = derivative;
 	if (derivative < velocity_right * 34.0)
-		right_PWM_value += xaccelerationTEST;
+		return right_PWM_value + xaccelerationTEST;
 
 	if (derivative > velocity_right * 34.0)
-		right_PWM_value -= xaccelerationTEST;
+		return right_PWM_value - xaccelerationTEST;
+
+	return right_PWM_value;
 
 }
 
 void PDController() {
+
+//////////////////////////	CALCULATE DISTANCE AND ANGLE CORRECTION /////////////////////////
 
 	float adjustedAngle = goal_angle + IRadjustment;
 
@@ -175,8 +140,8 @@ void PDController() {
 
 	distanceCorrection = kPx * distanceError + kDx * (distanceError - oldDistanceError);
 
-	left_error = getLeftEncoderCounts();
-	right_error = getRightEncoderCounts();
+	left_distance = getLeftEncoderCounts();
+	right_distance = getRightEncoderCounts();
 
 	if (state == MOVING && fabs(distanceError) > 100)
 	{		// If we're going straight and not at the end, apply acceleration
@@ -185,9 +150,12 @@ void PDController() {
 			distanceCorrection = oldDistanceCorrection + (xacceleration * sign(distanceCorrection - oldDistanceCorrection));
 	}
 
+////////////////////// ROUND DISTANCE OR ANGLE CORRECTION	//////////////////////////
+
 	switch(state) {		// Apply lower limits of PWM for various states
-		case MOVING:
 		case EXPLORING:
+			distanceCorrection = (accelerateLeftPWM() + accelerateRightPWM())/2;
+		case MOVING:
 			if (fabs(distanceCorrection) > 0.01 && fabs(distanceCorrection) < PWM_min_x)
 				distanceCorrection = sign(distanceCorrection) * PWM_min_x;
 			break;
@@ -199,34 +167,6 @@ void PDController() {
 			break;
 	}
 
-}
-
-void updatePID() {
-
-///// CALCULATE PREVIOUS ANGLE AND DISTANCE ERRORS //////////////////////////
-
-	oldAngleError = oldAngleErrors[9];
-	oldDistanceError = oldDistanceErrors[9];
-	old_left_error = old_left_errors[9];
-	old_right_error = old_right_errors[9];
-
-//////////	CALCULATE ANGLE CORRECTION AND DISTANCE CORRECTION	/////////////////////
-
-	PDController();
-
-	if (state == EXPLORING)
-	{
-		distanceError = 306;
-		distanceCorrection = explore_speed;
-
-		if (fabs(distanceCorrection - oldDistanceCorrection) > xacceleration)
-		{
-			distanceCorrection = oldDistanceCorrection + xacceleration;
-		}
-	}
-
-////////// 	CALCULATE AND SET MOTOR PWM VALUES	////////////////////////////
-
 	if (fabs(distanceCorrection) > PWM_max_x)		// Upper Limit for PWM
 		distanceCorrection = sign(distanceCorrection) * PWM_max_x;
 
@@ -235,16 +175,30 @@ void updatePID() {
 
 	if (state == ACCELERATING)
 	{
-		accelerateLeft();
-		accelerateRight();
+		left_PWM_value = accelerateLeftPWM();
+		right_PWM_value = accelerateRightPWM();
+		return;
 	}
 
-	else
-	{
-		left_PWM_value = (distanceCorrection + angleCorrection);
-		right_PWM_value = (distanceCorrection - angleCorrection);
-	}
+	left_PWM_value = (distanceCorrection + angleCorrection);
+	right_PWM_value = (distanceCorrection - angleCorrection);
 
+}
+
+void updatePID() {
+
+///// CALCULATE PREVIOUS ANGLE AND DISTANCE ERRORS //////////////////////////
+
+	oldAngleError = oldAngleErrors[9];
+	oldDistanceError = oldDistanceErrors[9];
+	old_left_distance = old_left_distances[9];
+	old_right_distance = old_right_distances[9];
+
+//////////////////////	CALCULATE MOTOR PWM VALUES	/////////////////////
+
+	PDController();
+
+////////////////////	NORMALIZE LEFT AND RIGHT PWM VALUES ////////////////
 
 	// Apply lower PWM limits for small adjustments
 	if (state == REST || state == ACCELERATING || fabs(distanceError) < 60 || fabs (angleError) < 60)
@@ -274,11 +228,7 @@ void updatePID() {
 		}
 	}
 
-	if (fabs(left_PWM_value) > PWM_max_x)		// Upper Limit for PWM
-		left_PWM_value = sign(left_PWM_value) * PWM_max_x;
-
-	if (fabs(right_PWM_value) > PWM_max_x)
-		right_PWM_value = sign(right_PWM_value) * PWM_max_x;
+//////////////////	SET PWM VALUES AND CHECK FOR GOAL REACHED ////////////////////////
 
 	setMotorLPWM(left_PWM_value);
 	setMotorRPWM(right_PWM_value);
@@ -289,10 +239,9 @@ void updatePID() {
 	else
 		goal_reached_timer = 0;
 
+///////////////////// UPDATE PREVIOUS ANGLE AND DISTANCE ERRORS //////////////////////////
 
 	oldDistanceCorrection = distanceCorrection;
-
-	test1 = left_error - old_left_error;
 
 	for(int i = 9; i > 0; i--)
 		oldAngleErrors[i] = oldAngleErrors[i-1];	// Adds the newest angleError to array and shifts everything to the right
@@ -303,12 +252,12 @@ void updatePID() {
 	oldDistanceErrors[0] = distanceError;
 
 	for(int i = 9; i > 0; i--)
-		old_left_errors[i] = old_left_errors[i-1];
-	old_left_errors[0] = left_error;
+		old_left_distances[i] = old_left_distances[i-1];
+	old_left_distances[0] = left_distance;
 
 	for(int i = 9; i > 0; i--)
-		old_right_errors[i] = old_right_errors[i-1];
-	old_right_errors[0] = right_error;
+		old_right_distances[i] = old_right_distances[i-1];
+	old_right_distances[0] = right_distance;
 
 }
 
@@ -322,5 +271,46 @@ int8_t PIDdone(){ // There is no bool type in C. True/False values are represent
 	}
 	else
 		return 0;
+
+}
+
+void resetPID() {
+
+//////////////	RESET ALL ANGLE AND DISTANCE ERRORS TO 0	////////////////
+	angleError = 0;
+	oldAngleError = 0;
+	angleCorrection = 0;
+
+	for (int i = 0; i < 10; i++)
+		oldAngleErrors[i] = 0;
+
+	distanceError = 0;
+	oldDistanceError = 0;
+	distanceCorrection = 0;
+
+	for (int i = 0; i < 10; i++)
+		oldDistanceErrors[i] = 0;
+
+	left_distance = 0;
+	old_left_distance = 0;
+	for (int i = 0; i < 10; i++)
+		old_left_distances[i] = 0;
+
+	right_distance = 0;
+	old_right_distance = 0;
+	for (int i = 0; i < 10; i++)
+		old_right_distances[i] = 0;
+
+	IRadjustment = 0;
+
+////////////// 	RESET ALL GOALS AND ENCODER COUNTS TO 0 	///////////////////
+	goal_angle = 0;
+	goal_distance = 0;
+	goal_reached_timer = 0;
+
+	resetEncoders();
+	resetMotors();
+
+	setState(REST);
 
 }

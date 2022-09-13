@@ -75,8 +75,8 @@ int16_t goal_forward_right = 0;
 int16_t goal_left = 0;
 int16_t goal_right = 0;
 
-float velocity_left = 0;  // meters per second
-float velocity_right = 0;
+float velocity_left = explore_speed;  // meters per second
+float velocity_right = explore_speed;
 
 /* USER CODE END PV */
 
@@ -186,11 +186,11 @@ int main(void)
 
 	  if (HAL_GPIO_ReadPin(RightButton_GPIO_Port, RightButton_Pin))
 	  {
-//		  explore();
+		  explore();
+//		  setLeftVelocity(0.5);
+//		  setRightVelocity(0.5);
 
-		  setLeftVelocity(0.4);
-		  setRightVelocity(0.8);
-//		  move(4);
+
 		  start_pressed = 1;
 	  }
 
