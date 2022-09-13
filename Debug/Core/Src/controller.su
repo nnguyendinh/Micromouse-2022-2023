@@ -2,4 +2,4 @@
 ../Core/Src/controller.c:39:6:turn	16	static
 ../Core/Src/controller.c:55:6:moveEncoderCount	24	static
 ../Core/Src/controller.c:71:6:explore	32	static
-../Core/Src/controller.c:125:6:frontCorrection	32	static
+../Core/Src/controller.c:117:6:frontCorrection	32	static

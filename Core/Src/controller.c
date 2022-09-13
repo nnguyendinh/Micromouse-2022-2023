@@ -22,10 +22,10 @@ int distance = 0;
 
 void move(int8_t n) {	// Move n cells forward (with acceleration)
 
+	setState(MOVING);
+
 	setPIDGoalA(0);
 	setPIDGoalD(move_counts*n);
-
-	setState(MOVING);
 
 	while(!PIDdone())
 	{
@@ -38,10 +38,10 @@ void move(int8_t n) {	// Move n cells forward (with acceleration)
 
 void turn(int8_t n) {	// Make n 90 degree turns (no acceleration)
 
+	setState(TURNING);
+
 	setPIDGoalD(0);
 	setPIDGoalA(turn_counts*n);
-
-	setState(TURNING);
 
 	while(!PIDdone())
 	{
@@ -54,10 +54,10 @@ void turn(int8_t n) {	// Make n 90 degree turns (no acceleration)
 
 void moveEncoderCount(int8_t n) {	// Move n encoder counts (with acceleration)
 
+	setState(MOVING);
+
 	setPIDGoalA(0);
 	setPIDGoalD(n);
-
-	setState(MOVING);
 
 	while(!PIDdone())
 	{
@@ -70,26 +70,18 @@ void moveEncoderCount(int8_t n) {	// Move n encoder counts (with acceleration)
 
 void explore() {	// Move forward at a constant speed until a turn is needed
 
-	setPIDGoalA(0);
-
 	setState(EXPLORING);
 
-	resetEncoders();
+	setPIDGoalA(0);
+	setPIDGoalD(10000);
+
+	resetEncoders(); // TODO: IS THIS NECESSARY??
 
 	int16_t explore_done = 0;
 
 	while(!explore_done)
 	{
 		setIRAngle(readIR(IR_LEFT), readIR(IR_RIGHT));
-
-		distance = getLeftEncoderCounts();
-//
-//		if (fabs(distance - move_counts) < 20)
-//			{
-//			explore_done = 1;
-//			resetPID();
-//			break;
-//			}
 
 		if (fabs(((getLeftEncoderCounts() + getRightEncoderCounts())/2) - move_counts) < 20)
 		{

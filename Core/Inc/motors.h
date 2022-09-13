@@ -14,5 +14,7 @@ float limitPWM(float pwm);
 void setMotorRPWM(float pwm);
 void setMotorLPWM(float pwm);
 void resetMotors();
+void setLeftVelocity(float v);
+void setRightVelocity(float v);
 
 #endif /* INC_MOTORS_H_ */

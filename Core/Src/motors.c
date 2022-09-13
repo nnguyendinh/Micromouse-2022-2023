@@ -3,6 +3,10 @@
  */
 
 #include "motors.h"
+#include "pid.h"
+
+extern float velocity_left;
+extern float velocity_right;
 
 float limitPWM(float pwm) {
 	if (pwm > PWM_MAX)
@@ -44,3 +48,17 @@ void resetMotors() {
 	setMotorLPWM(0);
 	setMotorRPWM(0);
 }
+
+void setLeftVelocity(float v) {
+
+	velocity_left = v;
+	setState(ACCELERATING);
+}
+void setRightVelocity(float v) {
+
+	velocity_right = v;
+	setState(ACCELERATING);
+
+}
+
+
