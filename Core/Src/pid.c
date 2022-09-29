@@ -73,8 +73,8 @@ void setIRGoals(int16_t frontLeftGoal, int16_t frontRightGoal, int16_t leftGoal,
 
 void setIRDistance(int16_t curr_forward_left, int16_t curr_forward_right) {
 
-	setPIDGoalA(front_kPw * ((goal_forward_left - curr_forward_left) - (goal_forward_right - curr_forward_right)));
-	setPIDGoalD(front_kPx * ((goal_forward_left - curr_forward_left + goal_forward_right - curr_forward_left)/2));
+	setPIDGoalA(FRONT_kPw * ((goal_forward_left - curr_forward_left) - (goal_forward_right - curr_forward_right)));
+	setPIDGoalD(FRONT_kPx * ((goal_forward_left - curr_forward_left + goal_forward_right - curr_forward_left)/2));
 
 }
 
@@ -103,10 +103,10 @@ float accelerateLeftPWM() {
 
 	test1 = derivative;
 	if (derivative < velocity_left * 34.0)
-		return left_PWM_value + xacceleration;
+		return left_PWM_value + ACC_CONSTANT;
 
 	if (derivative > velocity_left * 34.0)
-		return left_PWM_value - xacceleration;
+		return left_PWM_value - ACC_CONSTANT;
 
 	return left_PWM_value;
 
@@ -118,10 +118,10 @@ float accelerateRightPWM() {
 
 	test2 = derivative;
 	if (derivative < velocity_right * 34.0)
-		return right_PWM_value + xaccelerationTEST;
+		return right_PWM_value + ACC_CONSTANT;
 
 	if (derivative > velocity_right * 34.0)
-		return right_PWM_value - xaccelerationTEST;
+		return right_PWM_value - ACC_CONSTANT;
 
 	return right_PWM_value;
 
@@ -146,8 +146,8 @@ void PDController() {
 	if (state == MOVING && fabs(distanceError) > 100)
 	{		// If we're going straight and not at the end, apply acceleration
 
-		if (fabs(distanceCorrection - oldDistanceCorrection) > xacceleration)
-			distanceCorrection = oldDistanceCorrection + (xacceleration * sign(distanceCorrection - oldDistanceCorrection));
+		if (fabs(distanceCorrection - oldDistanceCorrection) > ACC_CONSTANT)
+			distanceCorrection = oldDistanceCorrection + (ACC_CONSTANT * sign(distanceCorrection - oldDistanceCorrection));
 	}
 
 ////////////////////// ROUND DISTANCE OR ANGLE CORRECTION	//////////////////////////
@@ -156,24 +156,27 @@ void PDController() {
 		case EXPLORING:
 			distanceCorrection = (accelerateLeftPWM() + accelerateRightPWM())/2;
 		case MOVING:
-			if (fabs(distanceCorrection) > 0.01 && fabs(distanceCorrection) < PWM_min_x)
-				distanceCorrection = sign(distanceCorrection) * PWM_min_x;
+			if (fabs(distanceCorrection) > 0.01 && fabs(distanceCorrection) < PWM_MIN_X)
+				distanceCorrection = sign(distanceCorrection) * PWM_MIN_X;
 			break;
 		case TURNING:
-			if (fabs(angleCorrection) > 0.01 && fabs(angleCorrection) < PWM_min_w)
-				angleCorrection = sign(angleCorrection) * PWM_min_w;
+			if (fabs(angleCorrection) > 0.01 && fabs(angleCorrection) < PWM_MIN_W)
+				angleCorrection = sign(angleCorrection) * PWM_MIN_W;
 			break;
+		case CURVING:
+			if (fabs(distanceError) < 60)
+				setState(REST);
 		default:
 			break;
 	}
 
-	if (fabs(distanceCorrection) > PWM_max_x)		// Upper Limit for PWM
-		distanceCorrection = sign(distanceCorrection) * PWM_max_x;
+	if (fabs(distanceCorrection) > PWM_MAX_X)		// Upper Limit for PWM
+		distanceCorrection = sign(distanceCorrection) * PWM_MAX_X;
 
-	if (fabs(angleCorrection) > PWM_max_w)
-		angleCorrection = sign(angleCorrection) * PWM_max_w;
+	if (fabs(angleCorrection) > PWM_MAX_W)
+		angleCorrection = sign(angleCorrection) * PWM_MAX_W;
 
-	if (state == ACCELERATING)
+	if (state == ACCELERATING || state == CURVING)
 	{
 		left_PWM_value = accelerateLeftPWM();
 		right_PWM_value = accelerateRightPWM();
@@ -203,30 +206,42 @@ void updatePID() {
 	// Apply lower PWM limits for small adjustments
 	if (state == REST || state == ACCELERATING || fabs(distanceError) < 60 || fabs (angleError) < 60)
 	{
-		if (fabs(left_PWM_value) > 0.01 && fabs(left_PWM_value) < PWM_min)
+		if (fabs(left_PWM_value) > 0.01 && fabs(left_PWM_value) < PWM_MIN)
 		{
-			left_PWM_value = sign(left_PWM_value) * PWM_min;
+			left_PWM_value = sign(left_PWM_value) * PWM_MIN;
 		}
 
-		if (fabs(right_PWM_value) > 0.01 && fabs(right_PWM_value) < PWM_min)
+		if (fabs(right_PWM_value) > 0.01 && fabs(right_PWM_value) < PWM_MIN)
 		{
-			right_PWM_value = sign(right_PWM_value) * PWM_min;
+			right_PWM_value = sign(right_PWM_value) * PWM_MIN;
 		}
 	}
 	else	// If under PWM limits, normalize values
 	{
-		if (fabs(left_PWM_value) > 0.01 && fabs(left_PWM_value) < PWM_min)
+		if (fabs(left_PWM_value) > 0.01 && fabs(left_PWM_value) < PWM_MIN)
 		{
-			right_PWM_value = right_PWM_value - (sign(right_PWM_value) * (PWM_min - fabs(left_PWM_value)));
-			left_PWM_value = sign(left_PWM_value) * PWM_min;
+			right_PWM_value = right_PWM_value - (sign(right_PWM_value) * (PWM_MIN - fabs(left_PWM_value)));
+			left_PWM_value = sign(left_PWM_value) * PWM_MIN;
 		}
 
-		if (fabs(right_PWM_value) > 0.01 && fabs(right_PWM_value) < PWM_min)
+		if (fabs(right_PWM_value) > 0.01 && fabs(right_PWM_value) < PWM_MIN)
 		{
-			left_PWM_value = left_PWM_value - (sign(left_PWM_value) * (PWM_min - fabs(right_PWM_value)));
-			right_PWM_value = sign(right_PWM_value) * PWM_min;
+			left_PWM_value = left_PWM_value - (sign(left_PWM_value) * (PWM_MIN - fabs(right_PWM_value)));
+			right_PWM_value = sign(right_PWM_value) * PWM_MIN;
 		}
 	}
+
+	if (fabs(left_PWM_value) > PWM_MAX)
+	{
+		left_PWM_value = sign(left_PWM_value) * PWM_MAX;
+	}
+
+	if (fabs(right_PWM_value) > PWM_MAX)
+	{
+		right_PWM_value = sign(right_PWM_value) * PWM_MAX;
+	}
+
+
 
 //////////////////	SET PWM VALUES AND CHECK FOR GOAL REACHED ////////////////////////
 

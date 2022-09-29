@@ -7,6 +7,6 @@
 ../Core/Src/pid.c:100:7:accelerateLeftPWM	24	static
 ../Core/Src/pid.c:115:7:accelerateRightPWM	24	static
 ../Core/Src/pid.c:130:6:PDController	24	static
-../Core/Src/pid.c:188:6:updatePID	40	static
-../Core/Src/pid.c:264:8:PIDdone	8	static
-../Core/Src/pid.c:277:6:resetPID	24	static
+../Core/Src/pid.c:191:6:updatePID	40	static
+../Core/Src/pid.c:279:8:PIDdone	8	static
+../Core/Src/pid.c:292:6:resetPID	24	static

@@ -20,7 +20,7 @@ void move(int8_t n) {	// Move n cells forward (with acceleration)
 	setState(MOVING);
 
 	setPIDGoalA(0);
-	setPIDGoalD(move_counts*n);
+	setPIDGoalD(MOVE_COUNTS*n);
 
 	while(!PIDdone())
 	{
@@ -36,7 +36,7 @@ void turn(int8_t n) {	// Make n 90 degree turns (no acceleration)
 	setState(TURNING);
 
 	setPIDGoalD(0);
-	setPIDGoalA(turn_counts*n);
+	setPIDGoalA(TURN_COUNTS*n);
 
 	while(!PIDdone())
 	{
@@ -69,7 +69,7 @@ void explore() {	// Move forward at a constant speed until a turn is needed
 
 	setPIDGoalA(0);
 
-	resetEncoders();
+	resetEncoders();	// TODO: IS THIS NECESSARY?
 
 	int16_t explore_done = 0;
 
@@ -79,7 +79,7 @@ void explore() {	// Move forward at a constant speed until a turn is needed
 
 		int16_t distance = (getLeftEncoderCounts() + getRightEncoderCounts())/2;
 
-		if (distance % move_counts < 15 || distance % move_counts > move_counts - 15)
+		if (distance % MOVE_COUNTS < 15 || distance % MOVE_COUNTS > MOVE_COUNTS - 15)
 			// If distance is within 15 ticks of the cell distance
 		{
 			Action nextMove = solver(DEAD);
@@ -128,6 +128,26 @@ void frontCorrection() {
 		{
 			break;
 		}
+	}
+
+	resetPID();
+
+}
+
+void curve(int8_t n) {
+
+	setPIDGoalD(fabs(481 * n));	// 481
+//	setPIDGoalA(TURN_COUNTS*n);
+	setPIDGoalA(0);
+
+	setLeftVelocity((n >= 0) ? OUTER_SPEED : INNER_SPEED);
+	setRightVelocity((n >= 0) ? INNER_SPEED : OUTER_SPEED);
+
+	setState(CURVING);
+
+	while(!PIDdone())
+	{
+
 	}
 
 	resetPID();
