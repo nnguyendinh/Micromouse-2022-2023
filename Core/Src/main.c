@@ -186,6 +186,8 @@ int main(void)
 
 	  if (HAL_GPIO_ReadPin(RightButton_GPIO_Port, RightButton_Pin))
 	  {
+//		  setIRGoals(readIR(IR_FORWARD_LEFT), readIR(IR_FORWARD_RIGHT), readIR(IR_LEFT), readIR(IR_RIGHT));
+//		  frontCorrection();
 		  start_pressed = 1;
 	  }
 
@@ -205,13 +207,13 @@ int main(void)
  */
 	  if (start_pressed)
 	  {
-		  move(0);
-		  move(3);
-		  turn(2);
-		  move(3);
-		  turn(-2);
+		  solve(DEAD);
+//		  move(0);
+//		  move(1);
+//		  move(1);
+//		  turn(1);
+//		  turn(1);
 
-//		  solve(DEAD);
 	  }
 
     /* USER CODE END WHILE */

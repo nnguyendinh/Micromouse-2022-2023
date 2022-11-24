@@ -10,6 +10,28 @@
 #include "irs.h"
 #include "utility.h"
 
+// Constants
+const float kPw = 0.003;	// 0.003
+const float kDw = 0.0005;	// 0.0005
+const float kPx = 0.001;	// 0.001
+const float kDx = 0.0000;		//0.0
+
+const float front_kPx = 0.6;
+const float front_kPw = 0.35;
+
+const float kPir = 0.050;		// 0.05	for 2 walls
+const float kPir2 = 0.075;		// 0.025 for 1 wall
+
+const float xacceleration = 0.001; // 0.001
+
+const float PWMMaxx = 0.5; // 0.65
+const float PWMMaxw = 0.35;	//0.35
+const float PWMMinx = 0.32;	// 0.32
+const float PWMMinw = 0.32;	// 0.32
+const float PWMMin = 0.28;	// 0.28
+
+const float explore_speed = 0.4;
+
 // Goal Parameters
 float goal_distance = 0;
 float goal_angle = 0;
@@ -145,9 +167,10 @@ void PDController() {
 
 	if (state == MOVING && fabs(distanceError) > 100)
 	{		// If we're going straight and not at the end, apply acceleration
-
-		if (fabs(distanceCorrection - oldDistanceCorrection) > ACC_CONSTANT)
-			distanceCorrection = oldDistanceCorrection + (ACC_CONSTANT * sign(distanceCorrection - oldDistanceCorrection));
+		if (fabs(distanceCorrection - oldDistanceCorrection) > xacceleration)
+		{
+			distanceCorrection = oldDistanceCorrection + (xacceleration * sign(distanceCorrection - oldDistanceCorrection));
+		}
 	}
 
 ////////////////////// ROUND DISTANCE OR ANGLE CORRECTION	//////////////////////////
@@ -156,8 +179,8 @@ void PDController() {
 		case EXPLORING:
 			distanceCorrection = (accelerateLeftPWM() + accelerateRightPWM())/2;
 		case MOVING:
-			if (fabs(distanceCorrection) > 0.01 && fabs(distanceCorrection) < PWM_MIN_X)
-				distanceCorrection = sign(distanceCorrection) * PWM_MIN_X;
+			if (fabs(distanceCorrection) > 0.03 && fabs(distanceCorrection) < PWMMinx)
+				distanceCorrection = sign(distanceCorrection) * PWMMinx;
 			break;
 		case TURNING:
 			if (fabs(angleCorrection) > 0.01 && fabs(angleCorrection) < PWM_MIN_W)
