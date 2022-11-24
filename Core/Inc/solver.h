@@ -21,6 +21,6 @@ struct Cell* queueFront();
 Action solver(Algorithm alg);
 Action deadReckoning();
 Action floodFill();
-
+int foresight();
 
 #endif

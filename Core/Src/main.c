@@ -99,7 +99,18 @@ void solve(Algorithm alg) {
 	Action nextMove = solver(alg);
 	switch(nextMove) {
 		case FORWARD:
-			move(1);
+//			move(1);
+			if (alg == FLOODFILL)
+			{
+				int extra_moves = foresight(); // Already has curr position and heading
+				for (int i = 0; i < extra_moves; i++)
+				{
+					solver(FLOODFILL);
+				}
+				move(1 + extra_moves);
+			}
+			else
+				move(1);
 			break;
 		case LEFT:
 			turn(-1);

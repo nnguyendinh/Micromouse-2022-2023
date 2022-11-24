@@ -21,6 +21,8 @@ int queueEnd; //keep track of end of queue, where to add next
 int horzWall[17][16]; // got rid of the extra in the array to have hopefully less confusion
 int vertWall[16][17];
 
+int discovered[16][16];
+
 //extern int16_t leftIRvalue;
 //extern int16_t rightIRvalue;
 //extern int16_t frontLeftIRvalue;
@@ -75,6 +77,12 @@ void initElements()
     for (int i = 0; i < 16; i++) {
         for (int j = 0; j < 17; j++) {
             vertWall[i][j] = 0;
+        }
+    }
+
+    for (int i = 0; i < 16; i++) {
+        for (int j = 0; j < 16; j++) {
+            discovered[i][j] = 0;
         }
     }
 
@@ -162,6 +170,8 @@ void detectWalls()
         }
         break;
     }
+
+    discovered[currPos->row][currPos->col] = 1;		// Mark current cell as discovered
 }
 
 void recalculate()
@@ -306,11 +316,11 @@ Action floodFill() {
 
     if (row != 0 && Manhattans[row - 1][col] < Manhattans[row][col] && !northBlocked)
         nextHead = NORTH;
-    if (col != 15 && Manhattans[row][col + 1] < Manhattans[row][col] && !eastBlocked)
+    else if (col != 15 && Manhattans[row][col + 1] < Manhattans[row][col] && !eastBlocked)
         nextHead = EAST;
-    if (row != 15 && Manhattans[row + 1][col] < Manhattans[row][col] && !southBlocked)
+    else if (row != 15 && Manhattans[row + 1][col] < Manhattans[row][col] && !southBlocked)
         nextHead = SOUTH;
-    if (col != 0 && Manhattans[row][col - 1] < Manhattans[row][col] && !westBlocked)
+    else if (col != 0 && Manhattans[row][col - 1] < Manhattans[row][col] && !westBlocked)
         nextHead = WEST;
 
     // If no path available, then recalculta
@@ -367,4 +377,56 @@ Action floodFill() {
     else
         currHead--;
     return LEFT;
+}
+
+int foresight() {
+	int row = currPos->row;
+	int col = currPos->col;
+
+	int extra_moves = 0;
+
+	while(discovered[row][col] != 0)
+	{
+	    int northBlocked = horzWall[row][col];
+	    int eastBlocked = vertWall[row][col + 1];
+	    int southBlocked = horzWall[row + 1][col];
+	    int westBlocked = vertWall[row][col];
+
+	    // Find next heading
+	    int nextHead = -1;
+
+	    if (row != 0 && Manhattans[row - 1][col] < Manhattans[row][col] && !northBlocked)
+	        nextHead = NORTH;
+	    else if (col != 15 && Manhattans[row][col + 1] < Manhattans[row][col] && !eastBlocked)
+	        nextHead = EAST;
+	    else if (row != 15 && Manhattans[row + 1][col] < Manhattans[row][col] && !southBlocked)
+	        nextHead = SOUTH;
+	    else if (col != 0 && Manhattans[row][col - 1] < Manhattans[row][col] && !westBlocked)
+	        nextHead = WEST;
+
+	    if (nextHead != currHead)
+	    	break;
+
+	    extra_moves++;
+
+		switch (currHead)
+		{
+			case NORTH:
+				row--;
+				break;
+			case EAST:
+				col++;
+				break;
+			case SOUTH:
+				row++;
+				break;
+			case WEST:
+				col--;
+				break;
+		}
+		if (row < 0 || row > 15 || col < 0 || col > 15)
+			break;
+	}
+
+	return extra_moves;
 }
