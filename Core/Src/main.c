@@ -208,6 +208,8 @@ int main(void)
 	  if (start_pressed)
 	  {
 //		  solve(DEAD);
+		  move(0);
+		  solve(FLOODFILL);
 
 		  // One unit corner
 //		  move(0);
@@ -220,17 +222,17 @@ int main(void)
 //		  move(1);
 //		  turn(2);
 
-		  move(0);
-		  move(1);
-		  move(1);
-		  move(1);
-		  turn(1);
-		  turn(1);
-		  move(1);
-		  move(1);
-		  move(1);
-		  turn(-1);
-		  turn(-1);
+//		  move(0);
+//		  move(1);
+//		  move(1);
+//		  move(1);
+//		  turn(1);
+//		  turn(1);
+//		  move(1);
+//		  move(1);
+//		  move(1);
+//		  turn(-1);
+//		  turn(-1);
 
 	  }
 

@@ -7,7 +7,7 @@
 
 int16_t left_wall_threshold = 650;
 int16_t right_wall_threshold = 650;
-int16_t front_wall_threshold = 650;
+int16_t front_wall_threshold = 1200;
 
 int16_t left_wall = 0;
 int16_t right_wall = 0;

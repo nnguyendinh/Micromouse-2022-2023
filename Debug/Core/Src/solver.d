@@ -27,7 +27,8 @@ Core/Src/solver.o: ../Core/Src/solver.c ../Core/Inc/solver.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_pwr.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_pwr_ex.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim.h \
- ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim_ex.h
+ ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim_ex.h \
+ ../Core/Inc/utility.h
 ../Core/Inc/solver.h:
 ../Core/Inc/pid.h:
 ../Core/Inc/main.h:
@@ -59,3 +60,4 @@ Core/Src/solver.o: ../Core/Src/solver.c ../Core/Inc/solver.h \
 ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_pwr_ex.h:
 ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim.h:
 ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim_ex.h:
+../Core/Inc/utility.h:
