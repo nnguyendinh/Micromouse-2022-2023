@@ -135,21 +135,21 @@ void frontCorrection() {
 }
 
 void curve(int8_t n) {
-
-	setPIDGoalD(fabs(481 * n));	// 481
-//	setPIDGoalA(TURN_COUNTS*n);
-	setPIDGoalA(0);
-
-	setLeftVelocity((n >= 0) ? OUTER_SPEED : INNER_SPEED);
-	setRightVelocity((n >= 0) ? INNER_SPEED : OUTER_SPEED);
-
-	setState(CURVING);
-
-	while(!PIDdone())
-	{
-
-	}
-
-	resetPID();
+//
+//	setPIDGoalD(fabs(481 * n));	// 481
+////	setPIDGoalA(TURN_COUNTS*n);
+//	setPIDGoalA(0);
+//
+//	setLeftVelocity((n >= 0) ? outer_speed : inner_speed);
+//	setRightVelocity((n >= 0) ? inner_speed : outer_speed);
+//
+//	setState(CURVING);
+//
+//	while(!PIDdone())
+//	{
+//
+//	}
+//
+//	resetPID();
 
 }

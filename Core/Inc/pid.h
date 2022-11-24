@@ -12,7 +12,9 @@ typedef enum
 	REST = 0,
 	MOVING = 1,
 	TURNING = 2,
-	EXPLORING = 3
+	EXPLORING = 3,
+	ACCELERATING = 4,
+	CURVING = 5
 }STATE;
 
 // Functions

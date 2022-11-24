@@ -75,8 +75,8 @@ int16_t goal_forward_right = 0;
 int16_t goal_left = 0;
 int16_t goal_right = 0;
 
-float velocity_left = EXPLORE_SPEED;  // meters per second
-float velocity_right = EXPLORE_SPEED;
+//float velocity_left = EXPLORE_SPEED;  // meters per second
+//float velocity_right = EXPLORE_SPEED;
 
 /* USER CODE END PV */
 
@@ -207,12 +207,30 @@ int main(void)
  */
 	  if (start_pressed)
 	  {
-		  solve(DEAD);
+//		  solve(DEAD);
+
+		  // One unit corner
 //		  move(0);
 //		  move(1);
+//		  turn(1);
 //		  move(1);
-//		  turn(1);
-//		  turn(1);
+//		  turn(-2);
+//		  move(1);
+//		  turn(-1);
+//		  move(1);
+//		  turn(2);
+
+		  move(0);
+		  move(1);
+		  move(1);
+		  move(1);
+		  turn(1);
+		  turn(1);
+		  move(1);
+		  move(1);
+		  move(1);
+		  turn(-1);
+		  turn(-1);
 
 	  }
 
