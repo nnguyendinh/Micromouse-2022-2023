@@ -155,9 +155,9 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_ADC1_Init();
   MX_TIM1_Init();
+  MX_DMA_Init();
   MX_TIM3_Init();
   MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
@@ -172,7 +172,7 @@ int main(void)
 
   HAL_Init();
 
-  HAL_GPIO_WritePin(Y_LED_GPIO_Port, Y_LED_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(G_LED_GPIO_Port, G_LED_Pin, GPIO_PIN_SET);	// Code is indeed running
 
   /* USER CODE END 2 */
 
@@ -197,8 +197,6 @@ int main(void)
 
 	  if (HAL_GPIO_ReadPin(RightButton_GPIO_Port, RightButton_Pin))
 	  {
-//		  setIRGoals(readIR(IR_FORWARD_LEFT), readIR(IR_FORWARD_RIGHT), readIR(IR_LEFT), readIR(IR_RIGHT));
-//		  frontCorrection();
 		  start_pressed = 1;
 	  }
 
@@ -594,15 +592,21 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : RightButton_Pin Switch1_Pin */
-  GPIO_InitStruct.Pin = RightButton_Pin|Switch1_Pin;
+  /*Configure GPIO pin : RightButton_Pin */
+  GPIO_InitStruct.Pin = RightButton_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_Init(RightButton_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : Switch1_Pin */
+  GPIO_InitStruct.Pin = Switch1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(Switch1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : Switch2_Pin */
   GPIO_InitStruct.Pin = Switch2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(Switch2_GPIO_Port, &GPIO_InitStruct);
 
@@ -621,6 +625,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(ForwardRightEmitter_GPIO_Port, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI2_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI2_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 }
 
 /* USER CODE BEGIN 4 */
@@ -628,6 +639,24 @@ static void MX_GPIO_Init(void)
 ADC_HandleTypeDef* Get_HADC1_Ptr(void)
 {
 	return &hadc1;
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_PIN)
+{
+	if (GPIO_PIN == Switch1_Pin)
+	{
+		if (HAL_GPIO_ReadPin(Switch1_GPIO_Port, Switch1_Pin) == GPIO_PIN_SET)
+			HAL_GPIO_WritePin(R_LED_GPIO_Port, R_LED_Pin, GPIO_PIN_SET);
+		else
+			HAL_GPIO_WritePin(R_LED_GPIO_Port, R_LED_Pin, GPIO_PIN_RESET);
+	}
+	if (GPIO_PIN == Switch2_Pin)
+	{
+		if (HAL_GPIO_ReadPin(Switch2_GPIO_Port, Switch2_Pin) == GPIO_PIN_SET)
+			HAL_GPIO_WritePin(Y_LED_GPIO_Port, Y_LED_Pin, GPIO_PIN_SET);
+		else
+			HAL_GPIO_WritePin(Y_LED_GPIO_Port, Y_LED_Pin, GPIO_PIN_RESET);
+	}
 }
 
 

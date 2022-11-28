@@ -1,6 +1,7 @@
 "./Core/Src/controller.o"
 "./Core/Src/delay.o"
 "./Core/Src/encoders.o"
+"./Core/Src/flash.o"
 "./Core/Src/irs.o"
 "./Core/Src/main.o"
 "./Core/Src/motors.o"

@@ -8,6 +8,7 @@ C_SRCS += \
 ../Core/Src/controller.c \
 ../Core/Src/delay.c \
 ../Core/Src/encoders.c \
+../Core/Src/flash.c \
 ../Core/Src/irs.c \
 ../Core/Src/main.c \
 ../Core/Src/motors.c \
@@ -25,6 +26,7 @@ OBJS += \
 ./Core/Src/controller.o \
 ./Core/Src/delay.o \
 ./Core/Src/encoders.o \
+./Core/Src/flash.o \
 ./Core/Src/irs.o \
 ./Core/Src/main.o \
 ./Core/Src/motors.o \
@@ -42,6 +44,7 @@ C_DEPS += \
 ./Core/Src/controller.d \
 ./Core/Src/delay.d \
 ./Core/Src/encoders.d \
+./Core/Src/flash.d \
 ./Core/Src/irs.d \
 ./Core/Src/main.d \
 ./Core/Src/motors.d \
@@ -63,7 +66,7 @@ Core/Src/%.o Core/Src/%.su: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/controller.d ./Core/Src/controller.o ./Core/Src/controller.su ./Core/Src/delay.d ./Core/Src/delay.o ./Core/Src/delay.su ./Core/Src/encoders.d ./Core/Src/encoders.o ./Core/Src/encoders.su ./Core/Src/irs.d ./Core/Src/irs.o ./Core/Src/irs.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/motors.d ./Core/Src/motors.o ./Core/Src/motors.su ./Core/Src/pid.d ./Core/Src/pid.o ./Core/Src/pid.su ./Core/Src/solver.d ./Core/Src/solver.o ./Core/Src/solver.su ./Core/Src/stm32f2xx_hal_msp.d ./Core/Src/stm32f2xx_hal_msp.o ./Core/Src/stm32f2xx_hal_msp.su ./Core/Src/stm32f2xx_it.d ./Core/Src/stm32f2xx_it.o ./Core/Src/stm32f2xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f2xx.d ./Core/Src/system_stm32f2xx.o ./Core/Src/system_stm32f2xx.su ./Core/Src/systick.d ./Core/Src/systick.o ./Core/Src/systick.su ./Core/Src/utility.d ./Core/Src/utility.o ./Core/Src/utility.su
+	-$(RM) ./Core/Src/controller.d ./Core/Src/controller.o ./Core/Src/controller.su ./Core/Src/delay.d ./Core/Src/delay.o ./Core/Src/delay.su ./Core/Src/encoders.d ./Core/Src/encoders.o ./Core/Src/encoders.su ./Core/Src/flash.d ./Core/Src/flash.o ./Core/Src/flash.su ./Core/Src/irs.d ./Core/Src/irs.o ./Core/Src/irs.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/motors.d ./Core/Src/motors.o ./Core/Src/motors.su ./Core/Src/pid.d ./Core/Src/pid.o ./Core/Src/pid.su ./Core/Src/solver.d ./Core/Src/solver.o ./Core/Src/solver.su ./Core/Src/stm32f2xx_hal_msp.d ./Core/Src/stm32f2xx_hal_msp.o ./Core/Src/stm32f2xx_hal_msp.su ./Core/Src/stm32f2xx_it.d ./Core/Src/stm32f2xx_it.o ./Core/Src/stm32f2xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f2xx.d ./Core/Src/system_stm32f2xx.o ./Core/Src/system_stm32f2xx.su ./Core/Src/systick.d ./Core/Src/systick.o ./Core/Src/systick.su ./Core/Src/utility.d ./Core/Src/utility.o ./Core/Src/utility.su
 
 .PHONY: clean-Core-2f-Src
 

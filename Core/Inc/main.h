@@ -103,8 +103,10 @@ ADC_HandleTypeDef* Get_HADC1_Ptr(void);
 #define RightButton_GPIO_Port GPIOC
 #define Switch1_Pin GPIO_PIN_12
 #define Switch1_GPIO_Port GPIOC
+#define Switch1_EXTI_IRQn EXTI15_10_IRQn
 #define Switch2_Pin GPIO_PIN_2
 #define Switch2_GPIO_Port GPIOD
+#define Switch2_EXTI_IRQn EXTI2_IRQn
 #define Switch3_Pin GPIO_PIN_3
 #define Switch3_GPIO_Port GPIOB
 #define RightEncoderCh1_Pin GPIO_PIN_4

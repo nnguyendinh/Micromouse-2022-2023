@@ -312,6 +312,113 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x4c ./Core/Src/encoders.o
  .debug_macro   0x0000000000000000      0x12d ./Core/Src/encoders.o
  .debug_macro   0x0000000000000000      0x160 ./Core/Src/encoders.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .group         0x0000000000000000        0xc ./Core/Src/flash.o
+ .text          0x0000000000000000        0x0 ./Core/Src/flash.o
+ .data          0x0000000000000000        0x0 ./Core/Src/flash.o
+ .bss           0x0000000000000000        0x0 ./Core/Src/flash.o
+ .bss.mazeWalls
+                0x0000000000000000      0x200 ./Core/Src/flash.o
+ .data.startAddress
+                0x0000000000000000        0x4 ./Core/Src/flash.o
+ .text.writeFlash
+                0x0000000000000000       0x84 ./Core/Src/flash.o
+ .text.readFlash
+                0x0000000000000000       0x64 ./Core/Src/flash.o
+ .debug_info    0x0000000000000000      0x264 ./Core/Src/flash.o
+ .debug_abbrev  0x0000000000000000      0x153 ./Core/Src/flash.o
+ .debug_aranges
+                0x0000000000000000       0x28 ./Core/Src/flash.o
+ .debug_ranges  0x0000000000000000       0x18 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x1e6 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0xa6c ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x22 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x8e ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x51 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x103 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x6a ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x1df ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x2e ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x22 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x1c ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x22 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0xbd ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0xe49 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x11f ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000    0x133fd ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x43 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x23e ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000     0x358e ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x174 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x55 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000     0x1057 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x4a ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x170 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x116 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0xfa ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0xa5 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x16a ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x287 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x5f ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x236 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x37c ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x16f ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0xf9 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x126 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x216 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x2e ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x113 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x22 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x82 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x8d1 ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000       0x4c ./Core/Src/flash.o
+ .debug_macro   0x0000000000000000      0x12d ./Core/Src/flash.o
+ .debug_line    0x0000000000000000      0x75e ./Core/Src/flash.o
+ .debug_str     0x0000000000000000    0xb2baa ./Core/Src/flash.o
+ .comment       0x0000000000000000       0x51 ./Core/Src/flash.o
+ .debug_frame   0x0000000000000000       0x60 ./Core/Src/flash.o
+ .ARM.attributes
+                0x0000000000000000       0x2d ./Core/Src/flash.o
  .group         0x0000000000000000        0xc ./Core/Src/irs.o
  .group         0x0000000000000000        0xc ./Core/Src/irs.o
  .group         0x0000000000000000        0xc ./Core/Src/irs.o
@@ -3793,6 +3900,7 @@ LOAD c:/st/stm32cubeide_1.9.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
 LOAD ./Core/Src/controller.o
 LOAD ./Core/Src/delay.o
 LOAD ./Core/Src/encoders.o
+LOAD ./Core/Src/flash.o
 LOAD ./Core/Src/irs.o
 LOAD ./Core/Src/main.o
 LOAD ./Core/Src/motors.o
