@@ -216,9 +216,10 @@ int main(void)
  */
 	  if (start_pressed)
 	  {
-//		  solve(DEAD);
 		  move(0);
+//		  solve(DEAD);
 		  solve(FLOODFILL);
+
 
 		  // One unit corner
 //		  move(0);
@@ -231,18 +232,25 @@ int main(void)
 //		  move(1);
 //		  turn(2);
 
+ //		  Two unit straight line
 //		  move(0);
 //		  move(1);
 //		  move(1);
-//		  move(1);
 //		  turn(1);
 //		  turn(1);
-//		  move(1);
 //		  move(1);
 //		  move(1);
 //		  turn(-1);
 //		  turn(-1);
 
+// //		  360 Degrees
+//		  move(0);
+//		  turn(1);
+//		  turn(1);
+//		  turn(1);
+//		  turn(1);
+
+//		  start_pressed = 0;
 	  }
 
     /* USER CODE END WHILE */

@@ -19,15 +19,15 @@ const float kDx = 0.0000;		//0.0
 const float front_kPx = 0.6;
 const float front_kPw = 0.35;
 
-const float kPir = 0.050;		// 0.05	for 2 walls
-const float kPir2 = 0.075;		// 0.025 for 1 wall
+const float kPir = 0.0750;		// 0.05	for 2 walls
+const float kPir2 = 0.125;		// 0.025 for 1 wall
 
 const float xacceleration = 0.001; // 0.001
 
-const float PWMMaxx = 0.5; // 0.65
-const float PWMMaxw = 0.35;	//0.35
+const float PWMMaxx = 0.7; // 0.65
+const float PWMMaxw = 0.33;	//0.35
 const float PWMMinx = 0.32;	// 0.32
-const float PWMMinw = 0.32;	// 0.32
+const float PWMMinw = 0.30;	// 0.32
 const float PWMMin = 0.28;	// 0.28
 
 const float explore_speed = 0.4;
@@ -154,6 +154,9 @@ float accelerateRightPWM() {
 void PDController() {
 
 //////////////////////////	CALCULATE DISTANCE AND ANGLE CORRECTION /////////////////////////
+
+	if (state == TURNING)
+		IRadjustment = 0;
 
 	float adjustedAngle = goal_angle + IRadjustment;
 

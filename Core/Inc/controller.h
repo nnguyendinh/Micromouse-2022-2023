@@ -8,7 +8,7 @@
 #include "main.h"
 
 #define MOVE_COUNTS 612 // 612
-#define TURN_COUNTS 456 // 456
+#define TURN_COUNTS 442 // 456
 #define INIT_COUNTS 300
 
 void move(int8_t n);
