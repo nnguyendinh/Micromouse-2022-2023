@@ -8,7 +8,9 @@
 #ifndef INC_FLASH_H_
 #define INC_FLASH_H_
 
-void writeFlash(int16_t horzWall[][], int16_t vertWall[][]);
-void readFlash(int16_t horzWall[][], int16_t vertWall[][]);
+#include <stdint.h>
+
+void writeFlash(int16_t horzWall[][16], int16_t vertWall[][17]);
+void readFlash(int16_t horzWall[][16], int16_t vertWall[][17]);
 
 #endif /* INC_FLASH_H_ */

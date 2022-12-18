@@ -1,0 +1,14 @@
+../Core/Src/solver.c:27:14:newCell	24	static
+../Core/Src/solver.c:35:6:insertQueue	16	static
+../Core/Src/solver.c:46:6:popQueueFront	8	static
+../Core/Src/solver.c:57:14:queueFront	4	static
+../Core/Src/solver.c:62:6:initElements	32	static
+../Core/Src/solver.c:95:6:setWall	16	static
+../Core/Src/solver.c:114:6:detectWalls	8	static
+../Core/Src/solver.c:179:6:recalculate	32	static
+../Core/Src/solver.c:253:8:solver	16	static
+../Core/Src/solver.c:267:8:deadReckoning	8	static
+../Core/Src/solver.c:282:8:floodFill	40	static
+../Core/Src/solver.c:389:5:foresight	40	static
+../Core/Src/solver.c:441:6:saveMaze	8	static
+../Core/Src/solver.c:446:6:loadMaze	8	static

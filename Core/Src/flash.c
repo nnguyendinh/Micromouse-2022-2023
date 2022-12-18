@@ -5,7 +5,7 @@
 int16_t mazeWalls[16][16]; // to hold wall information.
 uint32_t startAddress = 0x080E0000;
 
-void writeFlash(int16_t horzWall[][], int16_t vertWall[][])
+void writeFlash(int16_t horzWall[][16], int16_t vertWall[][17])
 {
 	uint32_t i, j;
 	HAL_FLASH_Unlock();
@@ -31,7 +31,7 @@ void writeFlash(int16_t horzWall[][], int16_t vertWall[][])
 	HAL_FLASH_Lock();
 }
 
-void readFlash(int16_t horzWall[][], int16_t vertWall[][])
+void readFlash(int16_t horzWall[][16], int16_t vertWall[][17])
 {
 	uint32_t i, j;
 //	for(i=0; i < 16; i++)

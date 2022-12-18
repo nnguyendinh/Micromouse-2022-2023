@@ -202,8 +202,8 @@ void recalculate()
 //        insertQueue(newCell(8, 7));
 //        insertQueue(newCell(8, 8));
 
-    	Manhattans[10][4] = 0;
-    	insertQueue(newCell(10, 4));
+    	Manhattans[12][0] = 0;
+    	insertQueue(newCell(12, 0));
     }
 
     else
