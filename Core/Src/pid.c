@@ -158,7 +158,7 @@ void PDController() {
 	if (state == TURNING)
 		IRadjustment = 0;
 
-	float adjustedAngle = goal_angle + IRadjustment;
+	float adjustedAngle = goal_angle/* + IRadjustment*/;
 
 	angleError = adjustedAngle - (getLeftEncoderCounts() - getRightEncoderCounts());
 	angleCorrection = kPw * angleError + kDw * (angleError - oldAngleError);

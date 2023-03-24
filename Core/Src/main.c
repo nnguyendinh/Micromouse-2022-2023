@@ -155,9 +155,9 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_ADC1_Init();
   MX_TIM1_Init();
-  MX_DMA_Init();
   MX_TIM3_Init();
   MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
@@ -172,7 +172,17 @@ int main(void)
 
   HAL_Init();
 
-  HAL_GPIO_WritePin(G_LED_GPIO_Port, G_LED_Pin, GPIO_PIN_SET);	// Code is indeed running
+  	HAL_GPIO_WritePin(G_LED_GPIO_Port, G_LED_Pin, GPIO_PIN_SET);	// Code is indeed running
+
+	if (HAL_GPIO_ReadPin(Switch1_GPIO_Port, Switch1_Pin) == GPIO_PIN_SET)	// Read maze on start
+		HAL_GPIO_WritePin(R_LED_GPIO_Port, R_LED_Pin, GPIO_PIN_SET);
+	else
+		HAL_GPIO_WritePin(R_LED_GPIO_Port, R_LED_Pin, GPIO_PIN_RESET);
+
+	if (HAL_GPIO_ReadPin(Switch2_GPIO_Port, Switch2_Pin) == GPIO_PIN_SET)	// Save maze on finish
+		HAL_GPIO_WritePin(Y_LED_GPIO_Port, Y_LED_Pin, GPIO_PIN_SET);
+	else
+		HAL_GPIO_WritePin(Y_LED_GPIO_Port, Y_LED_Pin, GPIO_PIN_RESET);
 
   /* USER CODE END 2 */
 
@@ -193,6 +203,7 @@ int main(void)
 	  {
 		  setIRGoals(readIR(IR_FORWARD_LEFT), readIR(IR_FORWARD_RIGHT), readIR(IR_LEFT), readIR(IR_RIGHT));
 		  irOffset_Set = 1;
+		  loadMaze();
 	  }
 
 	  if (HAL_GPIO_ReadPin(RightButton_GPIO_Port, RightButton_Pin))
@@ -217,8 +228,8 @@ int main(void)
 	  if (start_pressed)
 	  {
 		  move(0);
-//		  solve(DEAD);
-		  solve(FLOODFILL);
+		  solve(DEAD);
+//		  solve(FLOODFILL);
 
 
 		  // One unit corner

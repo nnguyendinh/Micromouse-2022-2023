@@ -80,12 +80,11 @@ void initElements()
                 vertWall[i][j] = 0;
             }
         }
-    }
-
-    for (int i = 0; i < 16; i++) {
-        for (int j = 0; j < 16; j++) {
-            discovered[i][j] = 0;
-        }
+		for (int i = 0; i < 16; i++) {
+			for (int j = 0; j < 16; j++) {
+				discovered[i][j] = 0;
+			}
+		}
     }
 
     queueStart = 0;
@@ -299,7 +298,7 @@ Action floodFill() {
     // If goal has already been reached, set new destination to either middle or starting cell
     if (Manhattans[row][col] == 0)
     {
-    	if (HAL_GPIO_ReadPin(Switch1_GPIO_Port, Switch2_Pin) == GPIO_PIN_SET)	// I want to save the finished maze on this run
+    	if (HAL_GPIO_ReadPin(Switch2_GPIO_Port, Switch2_Pin) == GPIO_PIN_SET)	// I want to save the finished maze on this run
 		{
 			saveMaze();
 		}
@@ -440,12 +439,12 @@ int foresight() {
 
 void saveMaze() {
 
-	writeFlash(horzWall, vertWall);
+	writeFlash(horzWall, vertWall, discovered);
 
 }
 void loadMaze() {
 
-	readFlash(horzWall, vertWall);
+	readFlash(horzWall, vertWall, discovered);
 
 }
 

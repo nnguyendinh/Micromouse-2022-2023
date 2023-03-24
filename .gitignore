@@ -1,0 +1,12 @@
+
+Debug/Crewmate.map
+Debug/Crewmate.list
+Debug/Crewmate.elf
+Debug/Core/Src/subdir.mk
+Debug/Core/Src/solver.su
+Debug/Core/Src/solver.o
+Debug/Core/Src/pid.o
+Debug/Core/Src/main.su
+Debug/Core/Src/main.o
+Debug/Core/Src/flash.su
+Debug/Core/Src/flash.o
