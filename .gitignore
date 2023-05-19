@@ -10,3 +10,4 @@ Debug/Core/Src/main.su
 Debug/Core/Src/main.o
 Debug/Core/Src/flash.su
 Debug/Core/Src/flash.o
+*.o

@@ -172,8 +172,6 @@ int main(void)
 
   HAL_Init();
 
-  	HAL_GPIO_WritePin(G_LED_GPIO_Port, G_LED_Pin, GPIO_PIN_SET);	// Code is indeed running
-
 	if (HAL_GPIO_ReadPin(Switch1_GPIO_Port, Switch1_Pin) == GPIO_PIN_SET)	// Read maze on start
 		HAL_GPIO_WritePin(R_LED_GPIO_Port, R_LED_Pin, GPIO_PIN_SET);
 	else
@@ -183,6 +181,11 @@ int main(void)
 		HAL_GPIO_WritePin(Y_LED_GPIO_Port, Y_LED_Pin, GPIO_PIN_SET);
 	else
 		HAL_GPIO_WritePin(Y_LED_GPIO_Port, Y_LED_Pin, GPIO_PIN_RESET);
+
+	if (HAL_GPIO_ReadPin(Switch3_GPIO_Port, Switch3_Pin) == GPIO_PIN_SET)	// Do Floodfill
+		HAL_GPIO_WritePin(G_LED_GPIO_Port, G_LED_Pin, GPIO_PIN_SET);
+	else
+		HAL_GPIO_WritePin(G_LED_GPIO_Port, G_LED_Pin, GPIO_PIN_RESET);
 
   /* USER CODE END 2 */
 
@@ -228,9 +231,57 @@ int main(void)
 	  if (start_pressed)
 	  {
 		  move(0);
-		  solve(DEAD);
-//		  solve(FLOODFILL);
 
+		  if (HAL_GPIO_ReadPin(Switch3_GPIO_Port, Switch3_Pin) == GPIO_PIN_SET)
+			  solve(FLOODFILL);
+		  else
+			  solve(DEAD);
+
+//////////// INSERT YOUR COMMANDS BELOW HERE /////////////
+
+/*
+*
+* 	move(x);  	// Replace x with the amount of squares you want to move forward
+*
+* 	turn(x);	// Replace x with the amount of 90 degree right turns you want to do
+*
+*/
+//		  turn(5);
+
+//////////// INSERT YOUR COMMANDS ABOVE HERE /////////////
+
+
+		  // Demo Maze
+//		  move(1);
+//		  move(1);
+//		  turn(-1);
+//		  move(1);
+//		  move(1);
+//		  turn(-1);
+//		  move(1);
+//		  turn(-1);
+//		  move(1);
+//		  turn(1);
+//		  move(1);
+//		  turn(1);
+//		  move(1);
+//		  turn(1);
+//		  turn(1);
+//		  move(1);
+//		  turn(-1);
+//		  move(1);
+//		  turn(-1);
+//		  move(1);
+//		  turn(1);
+//		  move(1);
+//		  turn(1);
+//		  move(1);
+//		  move(1);
+//		  turn(1);
+//		  move(1);
+//		  move(1);
+//		  turn(1);
+//		  turn(1);
 
 		  // One unit corner
 //		  move(0);
@@ -243,7 +294,7 @@ int main(void)
 //		  move(1);
 //		  turn(2);
 
- //		  Two unit straight line
+// 		  Two unit straight line
 //		  move(0);
 //		  move(1);
 //		  move(1);
@@ -251,8 +302,8 @@ int main(void)
 //		  turn(1);
 //		  move(1);
 //		  move(1);
-//		  turn(-1);
-//		  turn(-1);
+//		  turn(1);
+//		  turn(1);
 
 // //		  360 Degrees
 //		  move(0);
@@ -260,7 +311,7 @@ int main(void)
 //		  turn(1);
 //		  turn(1);
 //		  turn(1);
-
+//
 //		  start_pressed = 0;
 	  }
 
