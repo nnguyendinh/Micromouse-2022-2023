@@ -22,5 +22,7 @@ Action solver(Algorithm alg);
 Action deadReckoning();
 Action floodFill();
 int foresight();
+void saveMaze();
+void loadMaze();
 
 #endif

@@ -1,32 +1,28 @@
 #include "solver.h"
 #include "pid.h"
 #include "utility.h"
+#include "flash.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 
-int initialized = 0;
-int goToCenter = 1;
+int16_t initialized = 0;
+int16_t goToCenter = 1;
 
 extern int16_t startPressed;
 extern int running;
 
 struct Cell* currPos;
 Heading currHead;
-int Manhattans[16][16];
+int16_t Manhattans[16][16];
 struct Cell* queue[512];
-int queueStart; //assuming circular queue, this helps us keep track of what position we are in in the queue, in terms of the "start"
-int queueEnd; //keep track of end of queue, where to add next
+int16_t queueStart; //assuming circular queue, this helps us keep track of what position we are in in the queue, in terms of the "start"
+int16_t queueEnd; //keep track of end of queue, where to add next
 
-int horzWall[17][16]; // got rid of the extra in the array to have hopefully less confusion
-int vertWall[16][17];
+int16_t horzWall[17][16]; // got rid of the extra in the array to have hopefully less confusion
+int16_t vertWall[16][17];
 
-int discovered[16][16];
-
-//extern int16_t leftIRvalue;
-//extern int16_t rightIRvalue;
-//extern int16_t frontLeftIRvalue;
-//extern int16_t frontRightIRvalue; // TODO: IS THIS NECESSARY?
+int16_t discovered[16][16];
 
 struct Cell* newCell(int r, int c)           // Acts as a constructor for a cell cuz C is annoying
 {
@@ -68,22 +64,27 @@ void initElements()
     currPos = newCell(15, 0);           // Sets current position to row 15, column 0
     currHead = NORTH;                    // Sets current heading to north
 
-    for (int i = 0; i < 17; i++) {
-        for (int j = 0; j < 16; j++) {
-            horzWall[i][j] = 0;
-        }
+    if (HAL_GPIO_ReadPin(Switch1_GPIO_Port, Switch1_Pin) == GPIO_PIN_SET)	// This is not the first run and we want to load maze
+    {
+    	loadMaze();
     }
-
-    for (int i = 0; i < 16; i++) {
-        for (int j = 0; j < 17; j++) {
-            vertWall[i][j] = 0;
+    else																	// We don't want to load maze from memory
+    {
+        for (int i = 0; i < 17; i++) {
+            for (int j = 0; j < 16; j++) {
+                horzWall[i][j] = 0;
+            }
         }
-    }
-
-    for (int i = 0; i < 16; i++) {
-        for (int j = 0; j < 16; j++) {
-            discovered[i][j] = 0;
+        for (int i = 0; i < 16; i++) {
+            for (int j = 0; j < 17; j++) {
+                vertWall[i][j] = 0;
+            }
         }
+		for (int i = 0; i < 16; i++) {
+			for (int j = 0; j < 16; j++) {
+				discovered[i][j] = 0;
+			}
+		}
     }
 
     queueStart = 0;
@@ -200,8 +201,8 @@ void recalculate()
 //        insertQueue(newCell(8, 7));
 //        insertQueue(newCell(8, 8));
 
-    	Manhattans[10][4] = 0;
-    	insertQueue(newCell(10, 4));
+    	Manhattans[12][0] = 0;
+    	insertQueue(newCell(12, 0));
     }
 
     else
@@ -297,6 +298,11 @@ Action floodFill() {
     // If goal has already been reached, set new destination to either middle or starting cell
     if (Manhattans[row][col] == 0)
     {
+    	if (HAL_GPIO_ReadPin(Switch2_GPIO_Port, Switch2_Pin) == GPIO_PIN_SET)	// I want to save the finished maze on this run
+		{
+			saveMaze();
+		}
+
         if (goToCenter)
             goToCenter = 0; // Destination is now Starting Cell
         else
@@ -430,3 +436,15 @@ int foresight() {
 
 	return extra_moves;
 }
+
+void saveMaze() {
+
+	writeFlash(horzWall, vertWall, discovered);
+
+}
+void loadMaze() {
+
+	readFlash(horzWall, vertWall, discovered);
+
+}
+

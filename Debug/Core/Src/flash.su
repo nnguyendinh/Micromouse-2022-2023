@@ -1,0 +1,2 @@
+../Core/Src/flash.c:7:6:writeFlash	64	static
+../Core/Src/flash.c:37:6:readFlash	40	static
