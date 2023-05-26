@@ -192,17 +192,17 @@ void recalculate()
     if(goToCenter)
     {
         // Set middle four manhattan distances to 0, and insert all 4 into queue (set middle as destination)
-//        Manhattans[7][7] = 0;
-//        Manhattans[7][8] = 0;
-//        Manhattans[8][7] = 0;
-//        Manhattans[8][8] = 0;
-//        insertQueue(newCell(7, 7));
-//        insertQueue(newCell(7, 8));
-//        insertQueue(newCell(8, 7));
-//        insertQueue(newCell(8, 8));
+        Manhattans[7][7] = 0;
+        Manhattans[7][8] = 0;
+        Manhattans[8][7] = 0;
+        Manhattans[8][8] = 0;
+        insertQueue(newCell(7, 7));
+        insertQueue(newCell(7, 8));
+        insertQueue(newCell(8, 7));
+        insertQueue(newCell(8, 8));
 
-    	Manhattans[12][0] = 0;
-    	insertQueue(newCell(12, 0));
+//    	Manhattans[10][4] = 0;
+//    	insertQueue(newCell(10, 4));
     }
 
     else

@@ -19,8 +19,8 @@ const float kDx = 0.0000;		//0.0
 const float front_kPx = 0.6;
 const float front_kPw = 0.35;
 
-const float kPir = 0.03;		// 0.04	for 2 walls
-const float kPir2 = 0.05;		// 0.08 for 1 wall
+const float kPir = 0.06;		// 0.06	for 2 walls
+const float kPir2 = 0.05;		// 0.05 for 1 wall
 
 const float xacceleration = 0.001; // 0.001
 
