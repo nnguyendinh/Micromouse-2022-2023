@@ -14,7 +14,8 @@ typedef enum
 	TURNING = 2,
 	EXPLORING = 3,
 	ACCELERATING = 4,
-	CURVING = 5
+	CURVING = 5,
+	FRONTING = 6
 }STATE;
 
 // Functions

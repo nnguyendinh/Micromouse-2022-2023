@@ -5,6 +5,8 @@
 #include "main.h"
 #include "pid.h"
 #include "encoders.h"
+#include "irs.h"
+#include "delay.h"
 
 void SysTickFunction(void) {
 	/*

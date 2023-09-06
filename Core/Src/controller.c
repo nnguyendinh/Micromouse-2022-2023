@@ -112,21 +112,34 @@ void explore() {	// Move forward at a constant speed until a turn is needed
 
 void frontCorrection() {
 
-	setState(REST);
+//	setState(FRONTING);
 
 	int16_t forward_left = 0;
 	int16_t forward_right = 0;
 
-	while(!PIDdone())
+	while(1)
 	{
 		forward_left = readIR(IR_FORWARD_LEFT);
 		forward_right = readIR(IR_FORWARD_RIGHT);
 
-		setIRDistance(forward_left, forward_right);
+//		float kP_front = 0.0007;
 
-		if (fabs(forward_left - goal_forward_left) < 200 && fabs(forward_right - goal_forward_right) < 200)
+//		setIRDistance(forward_left, forward_right);
+		int average_goal = (goal_forward_left + goal_forward_right) / 2;
+		int average = (forward_left + forward_right) / 2;
+
+		if (fabs(goal_forward_left - forward_left) < 500 && fabs(goal_forward_right - forward_right) < 500)
 		{
 			break;
+		}
+
+		if (average_goal > average)
+		{
+			moveEncoderCount(20);
+		}
+		else
+		{
+			moveEncoderCount(-20);
 		}
 	}
 

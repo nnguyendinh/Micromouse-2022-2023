@@ -7,8 +7,8 @@
 
 #include "main.h"
 
-#define MOVE_COUNTS 612 // 612
-#define TURN_COUNTS 458 // 442 // changed from 435 on cloth table
+#define MOVE_COUNTS 615 // 612
+#define TURN_COUNTS 459 // 458	// 442 // changed from 435 on cloth table
 #define INIT_COUNTS 300
 
 void move(int8_t n);

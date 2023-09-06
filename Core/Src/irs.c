@@ -111,12 +111,15 @@ uint16_t analogRead(IR ir)
     // start filling up the ADC buffer
     HAL_ADC_Start_DMA(hadc1_ptr, (uint32_t*)adc_buf, NUM_SAMPLES);
 
+	delayMicroseconds(500);
+
+/*
     // wait for the buffer to become full
     while (complete == 0)
     {
         continue;
     }
-
+*/
     uint32_t sum = 0;
     // calculate the sum of the measurements in order to calculate the average
     uint16_t measurement = 0;
@@ -127,6 +130,8 @@ uint16_t analogRead(IR ir)
     }
 
     return sum/NUM_SAMPLES;
+
+//    return 0;
 }
 
 /*

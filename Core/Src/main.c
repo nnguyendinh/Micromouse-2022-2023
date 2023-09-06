@@ -29,6 +29,7 @@
 #include "delay.h"
 #include "irs.h"
 #include "solver.h"
+#include "utility.h"
 
 /* USER CODE END Includes */
 
@@ -342,6 +343,10 @@ int main(void)
 			  solve(FLOODFILL);
 		  else
 			  solve(DEAD);
+//		  if(frontWallCheck())
+//		  {
+//			  frontCorrection();
+//		  }
 
 //////////// INSERT YOUR COMMANDS BELOW HERE /////////////
 
@@ -417,7 +422,7 @@ int main(void)
 //		  turn(1);
 //		  turn(1);
 //		  turn(1);
-//
+
 //		  start_pressed = 0;
 	  }
 

@@ -8,7 +8,7 @@
 #define INC_IRS_H_
 
 // The number of samples to take
-#define NUM_SAMPLES 128
+#define NUM_SAMPLES 128	// TODO: CHANGE TO 128
 
 // Using this enumeration makes the code more readable
 typedef enum

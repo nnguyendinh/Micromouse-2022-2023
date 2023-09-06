@@ -71,6 +71,7 @@ float old_right_distance = 0;
 float old_right_distances[10] = {0};
 
 float IRadjustment = 0;
+float oldIRadjustment = 0;
 
 float test1 = 0;
 float test2 = 0;
@@ -273,8 +274,11 @@ void updatePID() {
 
 //////////////////	SET PWM VALUES AND CHECK FOR GOAL REACHED ////////////////////////
 
-	setMotorLPWM(left_PWM_value);
-	setMotorRPWM(right_PWM_value);
+
+	if (state != FRONTING) {
+		setMotorLPWM(left_PWM_value);
+		setMotorRPWM(right_PWM_value);
+	}
 
 	if(angleError < 30 && angleError > -30 && distanceError < 30 && distanceError > -30)
 		goal_reached_timer++;					// Increments goal reached timer when errors are within a certain threshold
