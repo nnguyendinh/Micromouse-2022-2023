@@ -57,6 +57,8 @@ TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim8;
 
+UART_HandleTypeDef huart3;
+
 /* USER CODE BEGIN PV */
 
 int16_t start_pressed = 0;
@@ -86,12 +88,13 @@ int16_t goal_right = 0;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_DMA_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_TIM1_Init(void);
+static void MX_DMA_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM8_Init(void);
 static void MX_I2C1_Init(void);
+static void MX_USART3_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -109,6 +112,10 @@ static void MX_I2C1_Init(void);
 #define GYRO_XOUT_H_REG 0x43
 #define PWR_MGMT_1_REG 0x6B
 #define WHO_AM_I_REG 0x75
+
+#define BUFFER_LEN 1
+
+uint8_t RX_BUFFER[BUFFER_LEN] = {'s'};
 
 int16_t Accel_X_RAW = 0;
 int16_t Accel_Y_RAW = 0;
@@ -262,8 +269,10 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM8_Init();
   MX_I2C1_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  HAL_UART_Receive_IT(&huart3, RX_BUFFER, BUFFER_LEN);
   MPU6050_Init();
 
   HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
@@ -286,10 +295,10 @@ int main(void)
 	else
 		HAL_GPIO_WritePin(Y_LED_GPIO_Port, Y_LED_Pin, GPIO_PIN_RESET);
 
-	if (HAL_GPIO_ReadPin(Switch3_GPIO_Port, Switch3_Pin) == GPIO_PIN_SET)	// Do Floodfill
-		HAL_GPIO_WritePin(G_LED_GPIO_Port, G_LED_Pin, GPIO_PIN_SET);
-	else
-		HAL_GPIO_WritePin(G_LED_GPIO_Port, G_LED_Pin, GPIO_PIN_RESET);
+//	if (HAL_GPIO_ReadPin(Switch3_GPIO_Port, Switch3_Pin) == GPIO_PIN_SET)	// Do Floodfill
+//		HAL_GPIO_WritePin(G_LED_GPIO_Port, G_LED_Pin, GPIO_PIN_SET);
+//	else
+//		HAL_GPIO_WritePin(G_LED_GPIO_Port, G_LED_Pin, GPIO_PIN_RESET);
 
   /* USER CODE END 2 */
 
@@ -309,6 +318,12 @@ int main(void)
 	  left_counts = getLeftEncoderCounts();
 	  right_counts = getRightEncoderCounts();
 
+
+		if (RX_BUFFER[0] == 'g')	// Bluetooth
+			HAL_GPIO_WritePin(G_LED_GPIO_Port, G_LED_Pin, GPIO_PIN_SET);
+		else
+			HAL_GPIO_WritePin(G_LED_GPIO_Port, G_LED_Pin, GPIO_PIN_RESET);
+
 	  if (HAL_GPIO_ReadPin(LeftButton_GPIO_Port, LeftButton_Pin))
 	  {
 		  setIRGoals(readIR(IR_FORWARD_LEFT), readIR(IR_FORWARD_RIGHT), readIR(IR_LEFT), readIR(IR_RIGHT));
@@ -320,6 +335,25 @@ int main(void)
 	  {
 		  start_pressed = 1;
 	  }
+	  if (RX_BUFFER[0] == 'g')
+	  {
+		  move(0);
+		  move(1);
+		  RX_BUFFER[0] = 's';
+	  }
+	  if (RX_BUFFER[0] == 'a')
+	  {
+		  move(0);
+		  turn(-1);
+		  RX_BUFFER[0] = 's';
+	  }
+	  if (RX_BUFFER[0] == 'd')
+	  {
+		  move(0);
+		  turn(1);
+		  RX_BUFFER[0] = 's';
+	  }
+
 
 /*
  * 3 Modes: Regular, Explore, Zoom
@@ -732,6 +766,39 @@ static void MX_TIM8_Init(void)
 }
 
 /**
+  * @brief USART3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART3_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART3_Init 0 */
+
+  /* USER CODE END USART3_Init 0 */
+
+  /* USER CODE BEGIN USART3_Init 1 */
+
+  /* USER CODE END USART3_Init 1 */
+  huart3.Instance = USART3;
+  huart3.Init.BaudRate = 9600;
+  huart3.Init.WordLength = UART_WORDLENGTH_8B;
+  huart3.Init.StopBits = UART_STOPBITS_1;
+  huart3.Init.Parity = UART_PARITY_NONE;
+  huart3.Init.Mode = UART_MODE_RX;
+  huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart3.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART3_Init 2 */
+
+  /* USER CODE END USART3_Init 2 */
+
+}
+
+/**
   * Enable DMA controller clock
   */
 static void MX_DMA_Init(void)
@@ -799,14 +866,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : USART_TX_Pin USART_RX_Pin */
-  GPIO_InitStruct.Pin = USART_TX_Pin|USART_RX_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
   /*Configure GPIO pin : RightButton_Pin */
   GPIO_InitStruct.Pin = RightButton_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -866,6 +925,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_PIN)
 	}
 }
 
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart->Instance == huart3.Instance)
+	{
+		HAL_UART_Receive_IT(&huart3, RX_BUFFER, BUFFER_LEN);
+	}
+}
 
 /* USER CODE END 4 */
 

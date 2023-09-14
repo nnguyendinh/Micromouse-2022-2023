@@ -28,6 +28,7 @@ Core/Src/pid.o: ../Core/Src/pid.c ../Core/Inc/pid.h ../Core/Inc/main.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_pwr_ex.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim_ex.h \
+ ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_uart.h \
  ../Core/Inc/main.h ../Core/Inc/motors.h ../Core/Inc/encoders.h \
  ../Core/Inc/irs.h ../Core/Inc/utility.h
 ../Core/Inc/pid.h:
@@ -61,6 +62,7 @@ Core/Src/pid.o: ../Core/Src/pid.c ../Core/Inc/pid.h ../Core/Inc/main.h \
 ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_pwr_ex.h:
 ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim.h:
 ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim_ex.h:
+../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_uart.h:
 ../Core/Inc/main.h:
 ../Core/Inc/motors.h:
 ../Core/Inc/encoders.h:

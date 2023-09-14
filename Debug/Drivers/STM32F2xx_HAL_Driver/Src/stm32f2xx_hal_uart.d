@@ -1,4 +1,9 @@
-Core/Src/flash.o: ../Core/Src/flash.c ../Core/Inc/flash.h \
+Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_uart.o: \
+ ../Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_uart.c \
+ ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal.h \
+ ../Core/Inc/stm32f2xx_hal_conf.h \
+ ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc.h \
+ ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_def.h \
  ../Drivers/CMSIS/Device/ST/STM32F2xx/Include/stm32f2xx.h \
  ../Drivers/CMSIS/Device/ST/STM32F2xx/Include/stm32f205xx.h \
  ../Drivers/CMSIS/Include/core_cm3.h \
@@ -7,10 +12,6 @@ Core/Src/flash.o: ../Core/Src/flash.c ../Core/Inc/flash.h \
  ../Drivers/CMSIS/Include/cmsis_gcc.h \
  ../Drivers/CMSIS/Include/mpu_armv7.h \
  ../Drivers/CMSIS/Device/ST/STM32F2xx/Include/system_stm32f2xx.h \
- ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal.h \
- ../Core/Inc/stm32f2xx_hal_conf.h \
- ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc.h \
- ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_def.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc_ex.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_gpio.h \
@@ -29,7 +30,10 @@ Core/Src/flash.o: ../Core/Src/flash.c ../Core/Inc/flash.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_tim_ex.h \
  ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_uart.h
-../Core/Inc/flash.h:
+../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal.h:
+../Core/Inc/stm32f2xx_hal_conf.h:
+../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc.h:
+../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_def.h:
 ../Drivers/CMSIS/Device/ST/STM32F2xx/Include/stm32f2xx.h:
 ../Drivers/CMSIS/Device/ST/STM32F2xx/Include/stm32f205xx.h:
 ../Drivers/CMSIS/Include/core_cm3.h:
@@ -38,10 +42,6 @@ Core/Src/flash.o: ../Core/Src/flash.c ../Core/Inc/flash.h \
 ../Drivers/CMSIS/Include/cmsis_gcc.h:
 ../Drivers/CMSIS/Include/mpu_armv7.h:
 ../Drivers/CMSIS/Device/ST/STM32F2xx/Include/system_stm32f2xx.h:
-../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal.h:
-../Core/Inc/stm32f2xx_hal_conf.h:
-../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc.h:
-../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_def.h:
 ../Drivers/STM32F2xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h:
 ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_rcc_ex.h:
 ../Drivers/STM32F2xx_HAL_Driver/Inc/stm32f2xx_hal_gpio.h:
